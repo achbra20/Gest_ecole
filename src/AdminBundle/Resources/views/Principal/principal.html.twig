@@ -1,0 +1,308 @@
+{% extends "::basetable.html.twig" %}
+{% block title %}Index{% endblock %}
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-6">
+            <div class="panel panel-back noti-box">
+                <span class="icon-box bg-color-red set-icon">
+                    <i class="fa fa-envelope-o"></i>
+                </span>
+                <div class="text-box" >
+                    <p class="main-text">12</p>
+                    <p class="text-muted">Messages</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-6">
+            <div class="panel panel-back noti-box">
+                <span class="icon-box bg-color-green set-icon">
+                    <i class="fa fa-bars"></i>
+                </span>
+                <div class="text-box" >
+                    <p class="main-text">30</p>
+                    <p class="text-muted">Tache</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-6">
+            <div class="panel panel-back noti-box">
+                <span class="icon-box bg-color-blue set-icon">
+                    <i class="fa fa-bell-o"></i>
+                </span>
+                <div class="text-box" >
+                    <p class="main-text">24</p>
+                    <p class="text-muted">Notifications</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-6">
+            <div class="panel panel-back noti-box">
+                <span class="icon-box bg-color-brown set-icon">
+                    <i class="fa fa-clock-o"></i>
+                </span>
+                <div class="text-box" >
+                    <h3><div id="div_horloge"></div></h3>
+
+                </div>
+            </div>
+            <div class="panel panel-back noti-box">
+                <div class="text-box" >
+                    <div id='contcalendar'></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {#Afficher les eleve non effectuer#}
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a class="" href="#collapseOne2" data-toggle="collapse" data-parent="#accordion">Liste des eleve Non effectuer dans une classe</a>
+            </h4>
+        </div>
+      <div class="panel-collapse collapse in" id="collapseOne2" style="height: auto;">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Advanced Tables -->
+                        <div class="panel panel-default">
+
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                        <thead>
+                                        <tr>
+                                            <th>Nom et Prenom</th>
+                                            <th>Date Naissance</th>
+                                            <th>Classe précednte</th>
+                                            <th  style="width:15%;" ></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% set i=1 %}
+                                        {% for eleve in eleves %}
+                                            <tr>
+                                                <td><a href="{{ path('admin_consulter_eleve',{'id':eleve.id}) }}">{{ eleve.nom }} {{ eleve.prenom }}</a></td>
+                                                <td>{{ eleve.dateNais|date("d/m/Y") }}</td>
+                                                <td class="center">{% for classe in eleve.classe %} {{ classe.libelle }}{%  endfor%}</td>
+                                                <td class="center">
+                                                    <a href="{{ path('admin_modif_eleve',{'id':eleve.id}) }}" class="btn btn-primary" id="button" name="button"><i class="fa fa-check-square-o"></i> Affecter </a>
+                                                </td>
+                                            </tr>
+                                            {% set i=i+1 %}
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--End Advanced Tables -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#fin afficher les eleve non effectuer #}
+
+    {#Afficher les eleve non effectuer cette annee#}
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a class="" href="#collapseOne5" data-toggle="collapse" data-parent="#accordion">Liste des eleve Non effectuer dans une classe Cette Annee</a>
+
+            </h4>
+
+        </div>
+        <div class="panel-collapse collapse in" id="collapseOne5" style="height: auto;">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Advanced Tables -->
+                        <div class="panel panel-default">
+
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-hover" id="dataTables-example2">
+                                        <thead>
+                                        <tr>
+                                            <th>Nom et Prenom</th>
+                                            <th>Date Naissance</th>
+                                            <th>Classe précednte</th>
+                                            <th  style="width:15%;" ></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% set i=1 %}
+                                        {% for eleve in eleveanns %}
+                                            <tr>
+                                                <td><a href="{{ path('admin_consulter_eleve',{'id':eleve.id}) }}">{{ eleve.nom }} {{ eleve.prenom }}</a></td>
+                                                <td>{{ eleve.dateNais|date("d/m/Y") }}</td><td class="center">{% set break=0 %}{% for classe in eleve.classe if break == 0 %} {{ classe.libelle }}{% set break=1 %}{%  endfor%}</td>
+                                                <td class="center">
+                                                    <a href="{{ path('admin_modif_eleve',{'id':eleve.id}) }}" class="btn btn-primary" id="button" name="button"><i class="fa fa-check-square-o"></i> Affecter </a>
+                                                </td>
+                                            </tr>
+                                            {% set i=i+1 %}
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--End Advanced Tables -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#fin afficher les eleve non effectuer cette annee#}
+
+    {#afficher des eleve non payer#}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a class="" href="#collapseOne" data-toggle="collapse" data-parent="#accordion">Liste des eleves Non payer</a>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse in" id="collapseOne" style="height: auto;">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Advanced Tables -->
+                        <div class="panel panel-default">
+
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-hover" id="dataTables-example3">
+                                        <thead>
+                                        <tr>
+                                            <th>Nom et Prenom</th>
+                                            <th>Date Naissance</th>
+                                            <th>Niveau</th>
+                                            <th  style="width:15%;" ></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% set i=1 %}
+                                        {% for eleve in elevesnon %}
+                                            <tr>
+                                                <td><a href="{{ path('admin_consulter_eleve',{'id':eleve.id}) }}">{{ eleve.nom }} {{ eleve.prenom }}</a></td>
+                                                <td>{{ eleve.dateNais|date("d/m/Y") }}</td>
+                                                <td class="center">{% set break=0 %}{% for classe in eleve.classe if break == 0 %} {{ classe.Niveau.libelle }}{% set break=1 %}{%  endfor%}</td>
+                                                <td class="center">
+                                                    <a href="{{ path('admin_modif_eleve',{'id':eleve.id}) }}" class="btn btn-primary" id="button" name="button"><i class="fa fa-money"></i> Payer </a>
+                                                </td>
+                                            </tr>
+                                            {% set i=i+1 %}
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--End Advanced Tables -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# fin afficher des eleve non payer#}
+
+    <script type="text/javascript">
+        window.onload=function() {
+            horloge('div_horloge');
+        };
+        function horloge(el) {
+            if(typeof el=="string") { el = document.getElementById(el); }
+            function actualiser() {
+                var date = new Date();
+                var str = date.getHours();
+                str += ':'+(date.getMinutes()<10?'0':'')+date.getMinutes();
+                str += ':'+(date.getSeconds()<10?'0':'')+date.getSeconds();
+                el.innerHTML = str;
+            }
+            actualiser();
+            setInterval(actualiser,1000);}
+    </script>
+    <script>
+
+        function calendar() {
+
+            var monthNames= ['Jan','Fev','Mar','Avr','Mai','Jui','Juil','Aou','Sep','Oct','Nov','Dec'];
+            var jours= ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+            var monthDays= [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            var today= new Date();
+            var thisDay= today.getDate();
+            var year= today.getYear();
+            year <= 200 ? year += 1900 : null;
+
+            if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)){
+                monthDays[1] = 29;
+            }
+            var nDays= monthDays[today.getMonth()];
+            var firstDay= today;
+            firstDay.setDate(0);
+
+            firstDay.getDate() == 2 ? firstDay.setDate(0) : null;
+
+            var startDay = firstDay.getDay();
+
+            var tb= document.createElement('table');
+
+            var tbr= tb.insertRow(-1);
+
+            var tbh= document.createElement("th");
+            tbh.setAttribute('colspan','7');
+            var tbhtxt= document.createTextNode(monthNames[today.getMonth()+1]+'.'+year);
+            tbh.appendChild(tbhtxt);
+
+            tbr.appendChild(tbh);
+
+            var tbr=tb.insertRow(-1);
+
+            for(var i=0 ;i<jours.length ; i++){
+
+                tbr.insertCell(-1).appendChild(document.createTextNode(jours[i]));
+            }
+
+            var tbr= document.createElement("tr");
+
+            var column= 0;
+
+            for (var i= 0; i < startDay; i++) {
+                tbr.insertCell(0);
+                column++;
+            }
+
+            for (var i = 1; i <= nDays; i++) {
+
+                var tdd= tbr.insertCell(-1);
+
+                i == thisDay ? tdd.style.color="#FF0000" : null;
+
+                tdd.appendChild(document.createTextNode(i));
+
+                column++;
+                if (column == 7) {
+                    tb.appendChild(tbr);
+                    var tbr=document.createElement("tr");
+                    column = 0;
+                }
+
+                i == nDays ? tb.appendChild(tbr) : null;
+
+            }
+            document.getElementById('contcalendar').appendChild(tb);
+        }
+
+        typeof window.addEventListener == 'undefined' ? window.attachEvent("onload",calendar) : addEventListener('load',calendar,false);
+    </script>
+
+
+{% endblock %}

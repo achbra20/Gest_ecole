@@ -1,0 +1,135 @@
+<?php
+
+namespace AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * EleveClasseAnnee
+ *
+ * @ORM\Table(name="eleve_classe_annee")
+ * @ORM\Entity(repositoryClass="AdminBundle\Repository\EleveClasseAnneeRepository")
+ */
+class EleveClasseAnnee
+
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     *@ORM\ManyToOne(targetEntity="AdminBundle\Entity\Annee")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $Annee;
+    /**
+     *@ORM\ManyToOne(targetEntity="AdminBundle\Entity\Classe" )
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $Classe;
+
+    /**
+     * @var ArrayCollection $eleve
+     *
+     * @ORM\ManyToMany(targetEntity="AdminBundle\Entity\eleve", mappedBy="EleveClasseAnnee", cascade={"persist"})
+     * @ORM\JoinTable(name="classe_eleve")
+     * @ORM\JoinColumn(nullable=true)
+     **/
+    private $Eleve;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->Eleve = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set annee
+     *
+     * @param \AdminBundle\Entity\Annee $annee
+     *
+     * @return EleveClasseAnnee
+     */
+    public function setAnnee(\AdminBundle\Entity\Annee $annee)
+    {
+        $this->Annee = $annee;
+
+        return $this;
+    }
+
+    /**
+     * Get annee
+     *
+     * @return \AdminBundle\Entity\Annee
+     */
+    public function getAnnee()
+    {
+        return $this->Annee;
+    }
+
+    /**
+     * Set classe
+     *
+     * @param \AdminBundle\Entity\Classe $classe
+     *
+     * @return EleveClasseAnnee
+     */
+    public function setClasse(\AdminBundle\Entity\Classe $classe)
+    {
+        $this->Classe = $classe;
+
+        return $this;
+    }
+
+    /**
+     * Get classe
+     *
+     * @return \AdminBundle\Entity\Classe
+     */
+    public function getClasse()
+    {
+        return $this->Classe;
+    }
+
+    /**
+     * Add eleve
+     *
+     * @param \AdminBundle\Entity\eleve $eleve
+     *
+     * @return EleveClasseAnnee
+     */
+    public function addEleve(\AdminBundle\Entity\eleve $eleve)
+    {
+        $this->Eleve[] = $eleve;
+
+        return $this;
+    }
+
+    /**
+     * Remove eleve
+     *
+     * @param \AdminBundle\Entity\eleve $eleve
+     */
+    public function removeEleve(\AdminBundle\Entity\eleve $eleve)
+    {
+        $this->Eleve->removeElement($eleve);
+    }
+
+    /**
+     * Get eleve
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEleve()
+    {
+        return $this->Eleve;
+    }
+}

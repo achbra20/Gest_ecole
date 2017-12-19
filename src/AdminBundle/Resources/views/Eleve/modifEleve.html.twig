@@ -1,0 +1,137 @@
+{% extends "::basetable.html.twig" %}
+{% block title %}Modifier Eleve{% endblock %}
+{% block in_scolarite %} in{% endblock %}
+{% block activegest_eleve %}class="active-menu" {% endblock %}
+{% block body %}
+    <div>
+        <h2>Modifier l'éleve {{ eleve.nom}} {{eleve.prenom }}</h2>
+        <h5>Home\ Liste éleve\ Modifier l'éleve </h5>
+    </div>
+    <hr />
+
+    <div class="panel panel-primary">
+    <div class="panel-heading">
+        {{ eleve.nom}} {{eleve.prenom }}
+    </div>
+        {{form_errors(form)}}
+        <form role="form"  method="post" enctype="multipart/form-data" >
+    <div class="panel-body">
+
+    <div class="col-md-12">
+        <h4 class="text-center">Information obligtaroire</h4>
+           <div class="col-md-6">{# champ de nom/date naissance/sexe#}
+             <div class="form-group input-group">
+                <span class="input-group-addon">Nom</span>
+                {{form_widget(form.nom,{'attr':{'class':'form-control span12'} })}}
+                {{ form_errors(form.nom)}}
+            </div>
+             <div class="form-group input-group">
+                 <span class="input-group-addon">Date de Naissance</span>
+                  {{form_widget(form.dateNais,{'attr':{'class':'form-control span12'} })}}
+             </div>
+             <div class="form-group input-group">
+                 <span class="input-group-addon">Sexe</span>
+                 {{form_widget(form.sexe,{'attr':{'class':'form-control span12'} })}}
+             </div>
+            </div>
+            <div class="col-md-6">{# champ de prenom/lieu naissance / telephone#}
+                <div class="form-group input-group">
+                    <span class="input-group-addon">Prenom:</span>
+                    {{form_widget(form.prenom,{'attr':{'class':'form-control span12'} })}}
+                    {{ form_errors(form.prenom)}}
+                </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon">Lieu de Naissance</span>
+                    {{form_widget(form.lieuNaisance,{'attr':{'class':'form-control span12'} })}}
+                </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon">Telephone</span>
+                    {{form_widget(form.tel,{'attr':{'class':'form-control span12'} })}}
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group input-group">
+                    <span class="input-group-addon">Adresse</span>
+                    {{form_widget(form.adress,{'attr':{'class':'form-control span12'} })}}
+            </div>
+            </div>{#champ adresse#}
+            <div class="col-md-6">{#champ de code postal#}
+                <div class="form-group input-group">
+                    <span class="input-group-addon">Code Postal</span>
+                    {{form_widget(form.codePostal,{'attr':{'class':'form-control span12'} })}}
+                </div>
+            </div>{#champ de code postal#}
+            <div class="col-md-6">{# champ de ville #}
+            <div class="form-group input-group">
+                <span class="input-group-addon">Ville</span>
+                {{form_widget(form.ville,{'attr':{'class':'form-control span12'} })}}
+            </div>
+            </div>{#champ de ville #}
+        <h4 class="text-center">Information Secondaire</h4>
+        <div class="col-md-6">{#champ de ecole prec#}
+            <div class="form-group input-group">
+                <span class="input-group-addon">Ecole Précedente</span>
+                {{form_widget(form.arrivede,{'attr':{'class':'form-control span12'} })}}
+            </div>
+        </div>{#champ de ecole prec#}
+        <div class="col-md-6">{# champ de niv prec #}
+             <div class="form-group input-group">
+                <span class="input-group-addon">Niveau Précedent</span>
+                {{form_widget(form.nivPrec,{'attr':{'class':'form-control span12'} })}}
+            </div>
+        </div>{#champ de niv prec #}
+           <h4 class="text-center">Information sur les parent</h4>
+           <div class="col-md-6">
+           <div class="form-group input-group">
+                <span class="input-group-addon ">Nom du pére </span>
+                {{form_widget(form.nomPere,{'attr':{'class':'form-control span12'} })}}
+            </div>
+            <div class="form-group input-group">
+                <span class="input-group-addon">Fonction du Pére </span>
+                {{form_widget(form.fonctionPere,{'attr':{'class':'form-control span12'} })}}
+            </div>
+               <div class="form-group input-group">
+                   <span class="input-group-addon">Télephone du pére</span>
+                   {{form_widget(form.telParent1,{'attr':{'class':'form-control span12'} })}}
+               </div>
+           </div>{#les champ pour le pére#}
+           <div class="col-md-6">
+            <div class="form-group input-group">
+                <span class="input-group-addon">Nom du mére</span>
+                {{form_widget(form.nomMere,{'attr':{'class':'form-control span12'} })}}
+            </div>
+            <div class="form-group input-group">
+                <span class="input-group-addon">Fonction du mére</span>
+                {{form_widget(form.fonctionMere,{'attr':{'class':'form-control span12'} })}}
+            </div>
+            <div class="form-group input-group">
+                <span class="input-group-addon">Télephone du mére</span>
+                {{form_widget(form.telParent2,{'attr':{'class':'form-control span12'} })}}
+            </div>
+           </div>{#les champ pour la mére#}
+            <div class="col-md-12">{#Champ autre adress#}
+                <div class="form-group input-group">
+                    <span class="input-group-addon">Adresse Secondaire</span>
+                    {{form_widget(form.adress_parent,{'attr':{'class':'form-control span12'} })}}
+                </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon">Ajouter une image</span>
+                    {{form_widget(form.file,{'attr':{'class':'form-control span12'} })}}
+                </div>
+            </div>
+    </div>
+        <div><hr /></div>
+
+    <div style="float:right">
+
+        <button type="submit" class="btn btn-primary"> Modifier</button>
+        <a href ="{{ path('admin_consulter_eleve',{'id':eleve.id}) }}"   class="btn btn-default " type="reset"> Annuler</a>
+    </div>
+
+    </div>
+            {{ form_rest(form) }}
+        </form>
+    </div>
+
+{% endblock %}

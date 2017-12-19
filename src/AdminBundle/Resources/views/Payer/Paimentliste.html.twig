@@ -1,0 +1,148 @@
+{% extends "::basetable.html.twig" %}
+{% block title %}Liste des eléves{% endblock %}
+{% block in_paiement %} in{% endblock %}
+{% block payer_scolaire %}class="active-menu" {% endblock %}
+{% block body %}
+    <div id="page-inner">
+        <div class="row">
+            <div class="col-md-10">
+                <h2>Liste des paiement</h2>
+                <h5>Home \ Liste des paiement </h5>
+            </div>
+            <div class="col-md-2">
+                {#<a href="{{ path('admin_consulter_eleve',{'id':eleve.id}) }}" style="margin:5px;"  class="btn btn-primary" >
+                    <i class="fa fa-backward"></i> Retour
+                </a>#}
+                <button style="margin:5px;"  class="btn btn-primary" data-toggle="modal" data-target="#myModalajouter">
+                  <i class="fa fa-plus"></i>  Nouvel paiement
+                </button>
+            </div>
+        </div>
+
+
+    <hr />
+    {% if res%}
+        <div class="alert alert-info alert-dismissable">
+            <button class="close" aria-hidden="true" type="button" data-dismiss="alert">×</button>
+            {% if res ==1 %}
+                <h4 >Operation fait avec sucees</h4>
+            {% else %}
+                <h4 style="color: red">échec d'operation</h4>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Liste des Paiements d'année scolaire
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Année scolaire</th>
+                        <th>Tranche</th>
+                        <th>Montant</th>
+                        <th>date de paiement</th>
+                        <th style="width:30%;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% set i=1 %}
+                    {% for payer in payers %}
+                        <tr>
+                            <td>{{ payer.annee.libelle }}</td>
+                            <td>{{ payer.paiment.libelle }}</td>
+                            <td>{{ payer.montant }}</td>
+                            <td>{{ payer.datePayer|date("d/m/Y") }}</td>
+                            <td>
+                                <button class="btn btn-danger"  data-toggle="modal" data-target="#myModalsupp{{i}}"><i class="fa fa-trash-o"></i> Supprimer</button>
+                                <a class="btn btn-primary"  ><i class="fa fa-paperclip"></i> Imprimer Facture </a>
+                            </td>
+                        </tr>
+                        {% set i=i+1 %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Liste des Paiements des Service
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Année scolaire</th>
+                            <th>Service</th>
+                            <th>Nombre des Mois</th>
+                            <th>Montant</th>
+                            <th>Date de paiement</th>
+                            <th style="width:30%;"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% set i=1 %}
+                        {% for payer in payers %}
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td>
+                                    <button class="btn btn-danger"  data-toggle="modal" data-target="#myModalsupp{{i}}"><i class="fa fa-trash-o"></i> Supprimer</button>
+                                    <a class="btn btn-primary"  ><i class="fa fa-paperclip"></i> Imprimer Facture </a>
+                                </td>
+                            </tr>
+                            {% set i=i+1 %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {#Formulaire d'ajout#}
+    <div class="modal fade" id="myModalajouter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Payer le Niveau {{ niveau.Libelle }}</h4>
+                </div>
+                <form method="post" action="">
+                <div class="modal-body">
+                    {% for paiement in niveau.paiement%}
+                    <div class="form-group">
+                        <p><input type="radio" name="tranche" value="{{ paiement.id }}"/> {{ paiement.Libelle }}</p>
+                        <div class="col-md-8">
+                        <div class="text-left"> Nombre mois payer : {{ paiement.nbmois }} mois</div>
+                        <div class="text-left">prix de Mois: {{ niveau.prixmois }} DT</div>
+                        </div>
+                        <div class="col-md-4 ">
+                        <div >Total: {{ niveau.prixmois*paiement.nbmois }} DT</div>
+                        <div>Remise: {{ paiement.remise *100 }}%</div>
+                        <div> Montant {{(niveau.prixmois*paiement.nbmois)-(niveau.prixmois*paiement.nbmois)*paiement.remise }} DT</div>
+                        </div>
+                    </div>
+                <hr />
+                     {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <input type="submit" class="btn btn-primary" value="Payer" />
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {#fin Formulaire d'ajout#}
+
+{% endblock %}

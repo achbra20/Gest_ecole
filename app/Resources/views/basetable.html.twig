@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+    <!-- BOOTSTRAP STYLES-->
+    <link href="{{asset('Frontend/css/bootstrap.css')}}" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="{{asset('Frontend/css/font-awesome.css')}}" rel="stylesheet" />
+    <!-- MORRIS CHART STYLES-->
+
+    <!-- CUSTOM STYLES-->
+    <link href="{{asset('Frontend/css/custom.css')}}" rel="stylesheet" />
+    <!-- GOOGLE FONTS-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <!-- TABLE STYLES-->
+    <link href="{{asset('Frontend/js/dataTables/dataTables.bootstrap.css')}}" rel="stylesheet" />
+</head>
+<body>
+<div id="wrapper">
+    <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{path('admin_principal')}}">Gest-Ecole </a>
+        </div>
+        <div style="color: white;padding: 15px 50px 5px 50px;float: right;font-size: 16px;">
+            Bienvenu {{app.user.username}}
+            <a href="{{path('fos_user_security_logout')}}" class="btn btn-danger square-btn-adjust">Logout</a>
+        </div>
+    </nav>
+    <!-- /. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="main-menu">
+                <li class="text-center">
+                    <img src="{{ asset('Frontend/img/find_user.png')}}" class="user-image img-responsive"/>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-edit fa-3x"></i>Scolarité<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse{% block in_scolarite %}{% endblock %} ">
+                        <li>
+                            <a href="{{path('admin_listeeleve',{'res':0})}}" {% block activegest_eleve %}{% endblock %}  >Gestion des éleves</a>
+                        </li>
+                        <li>
+                            <a href="{{path('admin_liste_classe',{'res':0})}}" {% block activegest_calsse %}{% endblock %} >Gestion des  Classes</a>
+                        </li>
+                        <li>
+                            <a href="{{path('admin_listeniveau',{'res':0})}}"{% block activegest_niv %}{% endblock %}>Gestion des  Niveaux</a>
+                        </li>
+                        <li>
+                            <a href="{{path('admin_liste_matiere',{'res':0})}}"{% block activegest_mat %}{% endblock %}>Gestion des  Matiéres</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-dollar fa-3x"></i>Paiement<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse{% block in_paiement %}{% endblock %} ">
+                        <li>
+                            <a href="{{path('admin_liste_eleve_paiement',{'res':0})}}" {% block payer_scolaire %}{% endblock %}  >Paiement annee scolaire</a>
+                        </li>
+                        <li>
+                            <a href="" {% block payer_service %}{% endblock %}  >Paiement service</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-folder fa-3x"></i>Gestion des Ressources<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse{% block in_resource %}{% endblock %} ">
+                        <li>
+                            <a href="{{path('admin_liste_salle',{'res':0})}}" {% block resource_salle %}{% endblock %}  >Gestion des salles</a>
+                        </li>
+                        <li>
+                            <a href="" {% block resource_matrielle %}{% endblock %}  >Gestion des matériels</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-cogs fa-3x"></i>Configuration<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse{% block in_conf %}{% endblock %} ">
+                        <li>
+                            <a href="{{path('admin_conf_tranche',{'res':0})}}" {% block config_paiment %}{% endblock %}  >Configuration des paiment</a>
+                        </li>
+                        <li>
+                            <a href="{{path('admin_prix_niveau',{'res':0})}}" {% block config_prix_niv %}{% endblock %}  >Prix des niveaux</a>
+                        </li>
+                        <li>
+                            <a href="{{path('admin_liste_service',{'res':0})}}" {% block config_service %}{% endblock %}  >Gestion des services</a>
+                        </li>
+                        <li>
+                            <a href="{{path('admin_conf_annee',{'res':0})}}" {% block config_annee %}{% endblock %}  >Gestion des Années scolaire</a>
+                        </li>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </nav>
+    <!-- /. NAV SIDE  -->
+    <div id="page-wrapper" >
+        {% block body %}{% endblock %}
+
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+</div>
+<!-- /. PAGE WRAPPER  -->
+<!-- /. WRAPPER  -->
+<!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+<!-- JQUERY SCRIPTS -->
+<script src="{{asset('Frontend/js/jquery-1.10.2.js')}}" ></script>
+<!-- BOOTSTRAP SCRIPTS -->
+<script src="{{asset('Frontend/js/bootstrap.min.js')}}"></script>
+<!-- METISMENU SCRIPTS -->
+<script src="{{asset('Frontend/js/jquery.metisMenu.js')}}"></script>
+<!-- DATA TABLE SCRIPTS -->
+<script src="{{asset('Frontend/js/dataTables/jquery.dataTables.js')}}"></script>
+<script src="{{asset('Frontend/js/dataTables/dataTables.bootstrap.js')}}"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTables-example').dataTable();
+        $('#dataTables-example2').dataTable();
+        $('#dataTables-example3').dataTable();
+
+    });
+</script>
+<!-- CUSTOM SCRIPTS -->
+<script src="{{asset('Frontend/js/custom.js')}}"></script>
+
+
+</body>
+</html>

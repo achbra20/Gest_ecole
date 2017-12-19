@@ -1,0 +1,137 @@
+{% extends "::basetable.html.twig" %}
+{% block title %}Liste année scolaire{% endblock %}
+{% block in_conf %} in{% endblock %}
+{% block config_annee %}class="active-menu" {% endblock %}
+{% block body %}
+    <div id="page-inner">
+        <div class="row">
+            <div class="col-md-9">
+                <h2>Configuration Année Scolaire</h2>
+                <h5>Home \ Configuration\Année scolaire </h5>
+            </div>
+            <div class="col-md-2">
+                <button style="margin:5px;"  class="btn btn-primary" data-toggle="modal" data-target="#myModalajouter">
+                  <i class="fa fa-plus"></i>  Ajouter une année scolaire
+                </button>
+            </div>
+        </div>
+
+
+    <hr />
+
+    {% if res%}
+        <div class="alert alert-info alert-dismissable">
+            <button class="close" aria-hidden="true" type="button" data-dismiss="alert">×</button>
+            {% if res ==1 %}
+                <h4 >Operation fait avec sucees</h4>
+            {% else %}
+                <h4 style="color: red">échec d'operation</h4>
+            {% endif %}
+        </div>
+    {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Liste des Service
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Libelle</th>
+                            <th>Date Debut</th>
+                            <th>Date Fin</th>
+                            <th style="width:25%;"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% set i=1 %}
+                        {% for annee in annees %}
+                            <tr>
+                                <td>{{ annee.libelle }}</td>
+                                <td>{{ annee.dateDeb|date("d/m/Y") }}</td>
+                                <td>{{ annee.dateFin|date("d/m/Y") }}</td>
+                                <td>
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#myModalmodif{{i}}"><i class="fa fa-edit"></i> Modifier </button>
+                                    <button class="btn btn-danger"  data-toggle="modal" data-target="#myModalsupp{{i}}"><i class="fa fa-trash-o"></i> Supprimer </button>
+                                </td>
+                            </tr>
+                            {% set i=i+1 %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {#Formulaire d'ajout#}
+    <div class="modal fade" id="myModalajouter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Ajouter une Années Scolaire</h4>
+                </div>
+                {{form_errors(form)}}
+                <form role="form"  method="post">
+                    <div class="modal-body">
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Libelle </span>
+                            {{form_widget(form.libelle,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Date de debut</span>
+                            {{form_widget(form.dateDeb,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">date de Fin</span>
+                            {{form_widget(form.dateFin,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                        <button type="Submit" class="btn btn-primary">Ajouter</button>
+                    </div>
+                    {{ form_rest(form) }}
+                </form>
+            </div>
+        </div>
+    </div>
+    {#fin Formulaire d'ajout#}
+
+    {#Model de supression annee#}
+    {% set k=1 %}
+    {% for annee in annees %}
+        <div class="modal fade" id="myModalsupp{{ k }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Supprimer </h4>
+                    </div>
+                    <div class="modal-body">
+                        Vous Voulez Supprimer {{ annee.libelle }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                        <a href="{{ path('admin_conf_supp_annee',{'id':annee.id}) }}"  class="btn btn-danger"><i class="fa fa-trash-o"></i> Supprimer </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% set k=k+1 %}
+    {% endfor %}
+    {#fin Model de supression annee#}
+
+    {#Formulaire pour Modifier annee scolaire#}
+    {% set l=1 %}
+    {% for annee in annees %}
+        <div class="modal fade" id="myModalmodif{{l}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            {{ render(controller('AdminBundle:Paiement:modifierAnnee',{'id': annee.id}))}}
+        </div>
+        {% set l=l+1 %}
+    {% endfor %}
+    {#fin Formulaire pour Modifier annee scolaire#}
+{% endblock %}

@@ -1,0 +1,14 @@
+admin:
+    resource: "@AdminBundle/Resources/config/routing.yml"
+    prefix:   /
+admin_eleve:
+    resource: "@AdminBundle/Resources/config/routing_eleve.yml"
+    prefix:   /eleve
+admin_paiement:
+    resource: "@AdminBundle/Resources/config/routing_paiment.yml"
+    prefix:   /config/paiement
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation

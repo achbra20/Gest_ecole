@@ -1,0 +1,129 @@
+{% extends "::basetable.html.twig" %}
+{% block title %}Liste des eléves{% endblock %}
+{% block in_conf %} in{% endblock %}
+{% block config_service %}class="active-menu" {% endblock %}
+{% block body %}
+    <div id="page-inner">
+        <div class="row">
+            <div class="col-md-10">
+                <h2>Gestiond des services</h2>
+                <h5>Home \ Configuration\ Gestion des services </h5>
+            </div>
+            <div class="col-md-2">
+                <button style="margin:5px;"  class="btn btn-primary" data-toggle="modal" data-target="#myModalajouter">
+                    <i class="fa fa-plus"></i>  Ajouter un Service
+                </button>
+            </div>
+        </div>
+        <hr />
+
+        {% if res%}
+            <div class="alert alert-info alert-dismissable">
+                <button class="close" aria-hidden="true" type="button" data-dismiss="alert">×</button>
+                {% if res ==1 %}
+                    <h4 >Operation fait avec sucees</h4>
+                {% else %}
+                    <h4 style="color: red">échec d'operation</h4>
+                {% endif %}
+            </div>
+        {% endif %}
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Liste des Service
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Prix par mois</th>
+                        <th style="width:25%;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% set i=1 %}
+                   {% for service in services %}
+                    <tr>
+                        <td>{{ service.libelle }}</td>
+                        <td>{{ service.prixMois }}</td>
+                        <td>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#myModalmodif{{i}}"><i class="fa fa-edit"></i> Modifier </button>
+                            <button class="btn btn-danger"  data-toggle="modal" data-target="#myModalsupp{{i}}"><i class="fa fa-trash-o"></i> Supprimer </button>
+                        </td>
+                    </tr>
+                       {% set i=i+1 %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>
+
+    {#Formulaire d'ajout#}
+    <div class="modal fade" id="myModalajouter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Ajouter un type de tracnche</h4>
+                </div>
+                {{form_errors(form)}}
+                <form role="form"  method="post">
+                    <div class="modal-body">
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Nom de Service</span>
+                            {{form_widget(form.libelle,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Prix par mois</span>
+                            {{form_widget(form.prixMois,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                        <button type="Submit" class="btn btn-primary">Ajouter</button>
+                    </div>
+                    {{ form_rest(form) }}
+                </form>
+            </div>
+        </div>
+    </div>
+    {#fin Formulaire d'ajout#}
+
+    {#Model de supression#}
+    {% set k=1 %}
+    {% for service in services %}
+        <div class="modal fade" id="myModalsupp{{ k }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Supprimer </h4>
+                    </div>
+                    <div class="modal-body">
+                        Vous Voulez Supprimer {{ service.libelle }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                        <a href="{{ path('admin_supp_service',{'id':service.id}) }}"  class="btn btn-danger"><i class="fa fa-trash-o"></i> Supprimer </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% set k=k+1 %}
+    {% endfor %}
+    {#fin Model de supression#}
+
+    {#Formulaire pour Modifier service#}
+    {% set l=1 %}
+    {% for service in services %}
+        <div class="modal fade" id="myModalmodif{{l}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            {{ render(controller('AdminBundle:Paiement:modifierService',{'id': service.id}))}}
+        </div>
+        {% set l=l+1 %}
+    {% endfor %}
+    {#fin Formulaire pour Modifier service#}
+{% endblock %}

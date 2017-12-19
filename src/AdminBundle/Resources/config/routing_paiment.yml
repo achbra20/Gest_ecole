@@ -1,0 +1,62 @@
+#---------------------------------Payer Eleve---------------------------------------
+admin_liste_eleve_paiement:
+    path:     /payer/listeEleve/{res}
+    defaults: { _controller: AdminBundle:Paiement:listeEleves }
+
+admin_payer_eleve:
+    path:     /payer/eleve/{id}/{res}
+    defaults: { _controller: AdminBundle:Paiement:paiementEleve }
+#--------------------------------- route config tranche-----------------------------
+admin_conf_tranche:
+    path:     /tranche/{res}
+    defaults: { _controller: AdminBundle:Paiement:confTranche }
+
+admin_conf_tranche_niveau:
+    path:     /tranche/ajouterniveau/{id}
+    defaults: { _controller: AdminBundle:Paiement:ajoutNiveau }
+
+admin_conf_tranche_supp:
+    path:     /tranche/delete/{id}
+    defaults: { _controller: AdminBundle:Paiement:supprimerTranche }
+
+admin_conf_tranche_supp_niv:
+    path:     /tranche/delete/niv/{niveau}{id}
+    defaults: { _controller: AdminBundle:Paiement:SuppNiveau }
+
+admin_conf_tranche_modif:
+    path:     /tranche/modifier/{id}
+    defaults: { _controller: AdminBundle:Paiement:modifierTranche }
+#------------------------------------Gestion des année scolaire-----------------------------------------------
+admin_conf_annee:
+    path:     /gestion annee/{res}
+    defaults: { _controller: AdminBundle:Paiement:listeannee }
+
+admin_conf_supp_annee:
+    path:     /gestion annee/sprimer/{id}
+    defaults: { _controller: AdminBundle:Paiement:Suppannee }
+
+admin_conf_modif_annee:
+    path:     /gestion annee/modifier/{id}
+    defaults: { _controller: AdminBundle:Paiement:modifierAnnee }
+#----------------------------------- route pour les prix niveau-----------------------------------------------
+
+admin_prix_niveau:
+    path:     /prixniveau/{res}
+    defaults: { _controller: AdminBundle:Paiement:prixNiveau }
+admin_prix_niveau_saisie:
+    path:     /ajouterprixniveau/{id}
+    defaults: { _controller: AdminBundle:Paiement:modifierPrixNiveau }
+
+#----------------------------------------------- route pour configuration des service------------------------------
+
+admin_liste_service:
+    path:     /listeservice/{res}
+    defaults: { _controller: AdminBundle:Paiement:listeservice }
+
+admin_supp_service:
+    path:     /supprimerservice/{id}
+    defaults: { _controller: AdminBundle:Paiement:Suppservice }
+
+admin_modif_service:
+    path:     /modifierservice/{id}
+    defaults: { _controller: AdminBundle:Paiement:modifierService }

@@ -1,0 +1,22 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Ajouter des niveau a {{ paiement.Libelle }} </h4>
+        </div>
+        {{form_errors(formm)}}
+        <form role="form" action="{{ path('admin_conf_tranche_niveau',{'id':paiement.id}) }}" method="post">
+            <div class="modal-body">
+                <div class="form-group input-group">
+                    <span class="input-group-addon">Choisir le Niveau</span>
+                    {{form_widget(formm.Niveau,{'attr':{'class':'form-control span12'} })}}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                <button type="Submit" class="btn btn-primary">Modifier</button>
+            </div>
+            {{ form_rest(formm) }}
+        </form>
+    </div>
+</div>

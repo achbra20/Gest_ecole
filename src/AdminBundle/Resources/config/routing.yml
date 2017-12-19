@@ -1,0 +1,64 @@
+admin_principal:
+    path:     /
+    defaults: { _controller: AdminBundle:Default:Principal }
+
+
+admin_listeniveau:
+    path:     /listeNiveau/{res}
+    defaults: { _controller: AdminBundle:Scolarite:listeniveau }
+admin_del_niveau:
+    path:     /delNiveau/{id}
+    defaults: { _controller: AdminBundle:Scolarite:deleteNiveau }
+admin_modif_niveau:
+    path:     /modifNiveau/{id}
+    defaults: { _controller: AdminBundle:Scolarite:modifierNiveau }
+
+
+admin_liste_classe:
+    path:     /listeClasse/{res}
+    defaults: { _controller: AdminBundle:Scolarite:listeclasse }
+admin_del_classe:
+    path:     /delClasse/{id}
+    defaults: { _controller: AdminBundle:Scolarite:deleteClasse }
+admin_modif_classe:
+    path:     /modifClasse/{id}
+    defaults: { _controller: AdminBundle:Scolarite:modifierClasse }
+admin_liste_classe_eleve:
+    path:     /Classe/listeEleve/{id}/{res}
+    defaults: { _controller: AdminBundle:Scolarite:listeEleveClasse }
+admin_ajouter_classe_eleve:
+    path:     /Classe/AjouterEleve/{id}
+    defaults: { _controller: AdminBundle:Scolarite:listeAjouterEleveClasse }
+admin_supp_eleve_classe:
+    path:     /Classe/SuppEleve/{id}/{idclasse}
+    defaults: { _controller: AdminBundle:Scolarite:supprimerEleveClasse }
+
+admin_liste_salle:
+    path:     /listeSalle/{res}
+    defaults: { _controller: AdminBundle:Scolarite:listeSalle }
+admin_modif_salle:
+    path:     /modifSalle/{id}
+    defaults: { _controller: AdminBundle:Scolarite:modifierSalle }
+admin_supp_salle:
+    path:     /supprimerSalle/{id}
+    defaults: { _controller: AdminBundle:Scolarite:supprimerSalle }
+
+admin_liste_matiere:
+    path:     /listeMatiere/{res}
+    defaults: { _controller: AdminBundle:Scolarite:listeMatiere }
+admin_supp_matiere:
+    path:     /supprimerMatiere/{id}
+    defaults: { _controller: AdminBundle:Scolarite:supprimerMatiere }
+admin_modif_matiere:
+    path:     /modifMatiere/{id}
+    defaults: { _controller: AdminBundle:Scolarite:modifierMatiere }
+
+admin_liste_niveau_matiere:
+    path:     /listeMatiereNiveau/{res}/{id}
+    defaults: { _controller: AdminBundle:Scolarite:listeMatiereNiveau }
+admin_modif_matiere_niveau:
+    path:     /modifMatiereNiveau/{id}
+    defaults: { _controller: AdminBundle:Scolarite:modifierNiveauMatiere }
+admin_supp_matiere_niveau:
+    path:     /supprimerMatiereNiveau/{id}
+    defaults: { _controller: AdminBundle:Scolarite:supprimerMatiereniveau }

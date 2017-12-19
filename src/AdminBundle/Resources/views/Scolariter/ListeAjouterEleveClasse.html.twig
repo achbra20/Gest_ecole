@@ -1,0 +1,53 @@
+{% extends "::basetable.html.twig" %}
+{% block title %}Liste Eleve{% endblock %}
+{% block in_scolarite %} in{% endblock %}
+{% block activegest_calsse %}class="active-menu"{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Advanced Tables -->
+            <div class="panel panel-default">
+
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <form method="post" action="">
+                        <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Nom et Prenom</th>
+                                <th>Date Naissance</th>
+                                <th>Classe actuel</th>
+                                <th>Niveau</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% set i=1 %}
+                            {% for eleve in eleves %}
+                                <tr>
+                                    <td>
+                                        {% set i=0 %}{% for cla in eleve.classe if i==0 %}{% if cla.id == classe.id %}{% set i=1 %}{% endif %}{% endfor %}
+                                        {% if i!=1 %}<input type="checkbox" name="eleve[]" value="{{eleve.id}}"/>
+                                        {% else %}
+                                            <i class="fa fa-check-square-o"></i>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ eleve.nom }} {{ eleve.prenom }}</td>
+                                    <td>{{ eleve.dateNais|date("d/m/Y") }}</td>
+                                    <td class="center">{% for classe in eleve.classe %} {{ classe.libelle }} {% endfor %}</td>
+                                    <td class="center">{% for classe in eleve.classe %} {{ classe.Niveau.libelle }} {% endfor %}</td>
+                                </tr>
+                                {% set i=i+1 %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                            <input type="submit" class="btn btn-primary" value="Terminer">
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            <!--End Advanced Tables -->
+        </div>
+    </div>
+{% endblock %}

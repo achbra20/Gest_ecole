@@ -1,0 +1,239 @@
+{% extends "::basetable.html.twig" %}
+{% block title %}Liste des eléves{% endblock %}
+{% block in_scolarite %} in{% endblock %}
+{% block activegest_eleve %}class="active-menu" {% endblock %}
+{% block body %}
+
+    <div id="page-inner">
+        <div class="row">
+            <div class="col-md-9">
+                <h2>Liste des élèves</h2>
+                <h5>Home \ Liste des élèves </h5>
+            </div>
+            <div class="col-md-3">
+                <button style="margin:5px;"  class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                    <i class="fa fa-plus"></i> Ajouter un nouvel élève
+                </button>
+                <div style="margin:5px;"class="btn-group"><button data-toggle="modal" data-target="#myModalimp"class="btn btn-primary"><i class="fa fa-upload"></i> Importer élèves</button></div>
+
+                <div style="margin:5px"class="btn-group"><a href="{{ path('admin_export_eleve')}}" class="btn btn-primary "><i class="fa fa-download"></i> Exporter élèves</a></div>
+            </div>
+        </div>
+
+        <hr />
+        {% if res%}
+            <div class="alert alert-info alert-dismissable">
+                <button class="close" aria-hidden="true" type="button" data-dismiss="alert">×</button>
+            {% if res ==1 %}
+           <h4 >Operation fait avec sucees</h4>
+            {% else %}
+                <h4 style="color: red">échec d'operation</h4>
+            {% endif %}
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Advanced Tables -->
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                <tr>
+                                    <th>Nom et prénom</th>
+                                    <th>Date naissance</th>
+                                    <th>Classe actuel</th>
+                                    <th>Contact Parent</th>
+                                    <th>Adresse</th>
+                                    <th  style="width:230px;" ></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% set i=1 %}
+                                {% for eleve in eleves %}
+                                <tr>
+                                    <td><a href="{{ path('admin_consulter_eleve',{'id':eleve.id}) }}">{{ eleve.nom }} {{ eleve.prenom }}</a></td>
+                                    <td>{{ eleve.dateNais|date("d/m/Y") }}</td>
+                                    <td class="center">{% set break=0 %}{% for classe in eleve.classe if break == 0 %} {{ classe.libelle }}{% set break=1 %}{%  endfor%}</td>
+                                    <td class="center">{{ eleve.telParent1 }}<br/>{{ eleve.telParent2 }}</td>
+                                    <td class="center">{{ eleve.adress }}</td>
+                                    <td class="center">
+                                        <a href="{{ path('admin_modif_eleve',{'id':eleve.id}) }}" class="btn btn-primary" id="button" name="button"><i class="fa fa-edit"></i> Modifier </a>
+                                        <button class="btn btn-danger"  data-toggle="modal" data-target="#myModal{{i}}"><i class="fa fa-trash-o"></i> Supprimer </button>
+                                    </td>
+                                </tr>
+                                    {% set i=i+1 %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <!--End Advanced Tables -->
+            </div>
+        </div>
+    </div>
+
+    {# formulaire d'ajout eléve#}
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Ajouter un éleve</h4>
+                </div>
+                {{form_errors(form)}}
+                <form role="form"  method="post">
+                <div class="modal-body">
+                    {# champ de nom/date naissance/sexe#}
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Nom</span>
+                            {{form_widget(form.nom,{'attr':{'class':'form-control span12'} })}}
+                            {{ form_errors(form.nom)}}
+                        </div>
+                        <div class="form-group input-group">
+                           <span class="input-group-addon">Prenom:</span>
+                           {{form_widget(form.prenom,{'attr':{'class':'form-control span12'} })}}
+                           {{ form_errors(form.prenom)}}
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Date de Naissance</span>
+                            {{form_widget(form.dateNais,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Sexe</span>
+                            {{form_widget(form.sexe,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Lieu de Naissance</span>
+                            {{form_widget(form.lieuNaisance,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Telephone</span>
+                            {{form_widget(form.tel,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Adresse</span>
+                            {{form_widget(form.adress,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Code Postal</span>
+                            {{form_widget(form.codePostal,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Ville</span>
+                            {{form_widget(form.ville,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+
+                    <h4 class="text-center">Information Secondaire</h4>
+
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Ecole Précedente</span>
+                            {{form_widget(form.arrivede,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Niveau Précedent</span>
+                            {{form_widget(form.nivPrec,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                    <h4 class="text-center">Information sur les parent</h4>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon ">Nom du pére </span>
+                            {{form_widget(form.nomPere,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Fonction du Pére </span>
+                            {{form_widget(form.fonctionPere,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Télephone du pére</span>
+                            {{form_widget(form.telParent1,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Nom du mére</span>
+                            {{form_widget(form.nomMere,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Fonction du mére</span>
+                            {{form_widget(form.fonctionMere,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Télephone du mére</span>
+                            {{form_widget(form.telParent2,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Adresse Secondaire</span>
+                            {{form_widget(form.adress_parent,{'attr':{'class':'form-control span12'} })}}
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Ajouter une photo</span>
+                               {{form_widget(form.file)}}
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </div>
+                    {{ form_rest(form) }}
+                </form>
+            </div>
+        </div>
+    </div>
+    {# fin formulaire #}
+
+    {# Suprimer eleve#}
+    {% set j=1 %}
+    {% for eleve in eleves %}
+        <div class="modal fade" id="myModal{{j}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Supprimer un niveau</h4>
+                    </div>
+                    <div class="modal-body">
+                        Vous Voulez Supprimer l'éleve ''{{ eleve.nom }} {{ eleve.prenom }}''
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                        <a href="{{ path('admin_delete_eleve',{'id':eleve.id}) }}" class="btn btn-danger"><i class="fa fa-trash-o"></i> Supprimer </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% set j=j+1 %}
+    {% endfor %}
+    {# fin Suprimer eleve #}
+    {# Importation CSV#}
+    <div class="modal fade" id="myModalimp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Supprimer un niveau</h4>
+                </div>
+                <form role="form" enctype="multipart/form-data" action="{{ path("admin_import_eleve") }}" method="post">
+                    <div class="modal-body">
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">Parcourir</span>
+                            <input type="file" name="file">
+                            {#{{form_widget(formex.file,{'attr':{'class':'form-control span12'} })}}#}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-md-2">
+                        <a  href="{{ path('admin_telecharger_modele')}}" class="btn btn-primary"><i class="fa fa-download"></i> Telecharger un modèle</a>
+                        </div>
+                        <div class="col-md-10">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {# FIN Importation CSV#}
+{% endblock %}

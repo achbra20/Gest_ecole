@@ -1,0 +1,150 @@
+{% extends "::basetable.html.twig" %}
+{% block title %}Liste Niveau{% endblock %}
+{% block in_scolarite %} in{% endblock %}
+{% block activegest_niv %}class="active-menu" {% endblock %}
+{% block body %}
+
+    <div id="page-inner">
+        <div class="row">
+            <div class="col-md-10">
+                <h2>Liste des Niveaux</h2>
+                <h5>Home \ Liste des Niveau </h5>
+            </div>
+            <div class="col-md-2">
+                <button style="margin:5px;"  class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                    <i class="fa fa-plus"></i> Ajouter un Niveau
+                </button>
+            </div>
+        </div>
+
+        <hr />
+        {% if res>0 %}
+            <div class="alert alert-info alert-dismissable">
+                <button class="close" aria-hidden="true" type="button" data-dismiss="alert">×</button>
+                {% if res ==1 %}
+                    <h4 >Operation fait avec sucees</h4>
+                {% else %}
+                    <h4 style="color: red">échec d'operation</h4>
+                {% endif %}
+            </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Advanced Tables -->
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                <tr>
+                                    <th>Niveau</th>
+                                    <th>Nombre des classe</th>
+                                    <th  style="width:230px;" ></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% set i=1 %}
+                                {% for niveau in niveaux %}
+                                    {%  set count= render(controller('AdminBundle:Scolarite:calNiveauparClasse',{'id': niveau.id}))%}
+                                <tr>
+                                    <td><a href="{{ path('admin_liste_niveau_matiere',{'res':0,'id':niveau.id}) }}">{{ niveau.libelle }}</a></td>
+                                    <td class="center">{{ count }}</td>
+                                    <td class="center">
+                                        <button class="btn btn-primary"data-toggle="modal" data-target="#myModalm{{i}}"><i class="fa fa-edit"></i> Modifier </button>
+                                        {% if count<=0 %}
+                                        <button class="btn btn-danger"  data-toggle="modal" data-target="#myModal{{i}}"><i class="fa fa-trash-o"></i> Supprimer </button>
+                                         {% else %}
+                                         <button class="btn btn-danger"  data-toggle="modal" data-target="#myModalsupp"><i class="fa fa-trash-o"></i> Supprimer </button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                    {% set i=i+1 %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <!--End Advanced Tables -->
+            </div>
+        </div>
+    </div>
+
+    {# formulaire d'ajout eléve#}
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Ajouter un Niveau</h4>
+                </div>
+                {{form_errors(form)}}
+                <form role="form"  method="post">
+                <div class="modal-body">
+                    <div class="form-group input-group">
+                        <span class="input-group-addon">Libelle du Niveau</span>
+                        {{form_widget(form.libelle,{'attr':{'class':'form-control span12'} })}}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="Submit" class="btn btn-primary">Ajouter</button>
+                </div>
+                    {{ form_rest(form) }}
+                </form>
+            </div>
+        </div>
+    </div>
+    {# fin formulaire #}
+
+    {# Suprimer niveau#}
+    {% set j=1 %}
+    {% for niveau in niveaux %}
+    <div class="modal fade" id="myModal{{j}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Supprimer un niveau</h4>
+                </div>
+                    <div class="modal-body">
+                        Vous Voulez Supprimer le niveau ''{{ niveau.libelle }}''
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                        <a href="{{ path('admin_del_niveau',{'id':niveau.id}) }}"class="btn btn-danger"><i class="fa fa-trash-o"></i> Supprimer </a>
+                    </div>
+            </div>
+        </div>
+    </div>
+        {% set j=j+1 %}
+    {% endfor %}
+    {# fin Suprimer niveau #}
+    {# Modification Niveau#}
+    {% set k=1 %}
+    {% for niveau in niveaux %}
+        <div class="modal fade" id="myModalm{{k}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            {{ render(controller('AdminBundle:Scolarite:modifierNiveau',{'id': niveau.id}))}}
+        </div>
+        {% set k=k+1 %}
+    {% endfor %}
+    {# fin Modification Niveau#}
+    {#suppression non permis#}
+    <div class="modal fade" id="myModalsupp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Echec de suppresion</h4>
+                   </div>
+                    <div class="modal-body">
+                       <h4 class="text-center">Il y'a des classe dans cette niveau</h4>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+    {# fin suppression non permis#}
+{% endblock %}

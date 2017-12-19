@@ -1,0 +1,21 @@
+admin_modif_eleve:
+    path:     /Modifier/{id}
+    defaults: { _controller: AdminBundle:Eleve:modifierEleve }
+admin_listeeleve:
+    path:     /liste/{res}
+    defaults: { _controller: AdminBundle:Eleve:listeeleve }
+admin_consulter_eleve:
+    path:     /consulter/{id}
+    defaults: { _controller: AdminBundle:Eleve:consultereleve }
+admin_delete_eleve:
+    path:     /delete/{id}
+    defaults: { _controller: AdminBundle:Eleve:deleteEleve }
+admin_export_eleve:
+    path:     /exporteleve
+    defaults: { _controller: AdminBundle:Eleve:exportEleve }
+admin_import_eleve:
+    path:     /importeleve
+    defaults: { _controller: AdminBundle:Eleve:importEleve }
+admin_telecharger_modele:
+    path:     /modeleImporte
+    defaults: { _controller: AdminBundle:Eleve:telechaherger }
